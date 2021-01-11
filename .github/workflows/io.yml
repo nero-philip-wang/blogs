@@ -1,5 +1,5 @@
-name: 'github actions build and deploy gh-pages'
-on: 
+name: "github actions build and deploy gh-pages"
+on:
   push:
     branches:
       - master
@@ -9,15 +9,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
-        with: 
+        with:
           persist-credentials: false
       - name: install and build
         run: |
           npm install
           npm run docs:build
       - name: deploy
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@releases/v2
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BASE_BRANCH: master
           BRANCH: master
           FOLDER: docs/.vuepress/dist
