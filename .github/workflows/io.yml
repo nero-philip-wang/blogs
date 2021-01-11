@@ -8,15 +8,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.1   
+        uses: actions/checkout@master
         with: 
           persist-credentials: false
-      - name: install, build and deploy
+      - name: install and build
         run: |
           npm install
           npm run docs:build
-          cd docs/.vuepress/dist
-          git init
-          git add -A
-          git commit -m 'deploy'
-          git push -f git@github.com:nero-philip-wang/nero-philip-wang.github.io.git master
+      - name: deploy
+        uses: JamesIves/github-pages-deploy-action@master
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: master
+          FOLDER: docs/.vuepress/dist
